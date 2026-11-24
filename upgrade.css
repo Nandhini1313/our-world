@@ -214,3 +214,19 @@ body{font-family:"Manrope","Segoe UI",system-ui,sans-serif;font-weight:300}
 #loginForm .btn{align-self:center}
 .login-badge{--accent:255,170,215;margin:6px auto 0}
 .login-note{margin:0;font-size:14px;line-height:1.7;color:var(--muted);text-align:center}
+
+/* ---------- viewer password gate ---------- */
+body.locked{overflow:hidden}
+#gate{position:fixed;inset:0;z-index:1000001;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 50% 30%,rgba(91,111,190,.28),transparent 42%),radial-gradient(circle at 15% 85%,rgba(255,128,191,.14),transparent 32%),#050816}
+#gate[hidden]{display:none}
+.gate-card{width:min(420px,100%);padding:clamp(28px,5vw,44px);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;animation:fadeLoader 1.2s var(--ease) both}
+.gate-card .badge{--accent:255,170,215}
+.gate-card h1{margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-weight:300;font-size:clamp(40px,8vw,56px);letter-spacing:.04em}
+.gate-card p{margin:0;font-size:15px;color:var(--muted)}
+.gate-card .field{text-align:center}
+.gate-card .btn{align-self:stretch}
+.gate-err{min-height:1.3em;font-size:14px;color:#ffb3d9}
+
+.ud-logout{margin-left:auto;margin-right:12px;padding:8px 18px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(255,255,255,.08);color:#fff;font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:background .3s}
+.ud-logout:hover{background:rgba(255,200,230,.2)}
+.ud-head>div,.ud-head{gap:4px}
