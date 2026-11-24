@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Manrope:wght@300;400;600&family=Noto+Serif+Tamil:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="upgrade.css">
+</head>
+<body>
+
+<div id="loader"><div class="loader-content">
+  <h1 class="loader-title">Our World</h1>
+  <div class="loader-line"></div>
+  <p class="loader-text">entering the universe...</p>
+</div></div>
+
+<div id="mouseGlow"></div>
+<div class="bg"><div class="stars"></div><div class="light light1"></div><div class="light light2"></div><div class="light light3"></div></div>
+<div id="particles"></div>
+<div class="cinematic-overlay"></div>
+
+<nav class="chapter-nav" aria-label="Chapters">
+  <div class="chapter active" data-target="welcome">Welcome</div>
+  <div class="chapter" data-target="him">Him</div>
+  <div class="chapter" data-target="her">Her</div>
+  <div class="chapter" data-target="journey">Journey</div>
+  <div class="chapter" data-target="projects">Projects</div>
+  <div class="chapter" data-target="kavithai">Kavithai</div>
+  <div class="chapter" data-target="photos">Photos</div>
+  <div class="chapter" data-target="memories">Memories</div>
+  <div class="chapter" data-target="dreams">Dreams</div>
+  <button class="upload-ball" id="uploadFab" type="button" aria-expanded="false" aria-controls="uploadDrawer"><b>＋</b>Upload</button>
+</nav>
+
+<!-- WELCOME -->
+<section class="scene show" id="welcome">
+  <div class="moon"></div>
+  <div class="welcome-cloud cloud1"></div><div class="welcome-cloud cloud2"></div><div class="welcome-cloud cloud3"></div>
+  <div class="welcome-content">
+    <h1 class="main-title">Welcome Home</h1>
+    <p class="subtitle">A universe of memories, dreams and beautiful moments.</p>
+  </div>
+  <div class="scroll-indicator"><span></span></div>
+</section>
+
+<!-- HIM -->
+<section class="scene" id="him">
+  <div class="him-particle p1"></div><div class="him-particle p2"></div><div class="him-particle p3"></div>
+  <div class="him-layout">
+    <div class="him-left glass">
+      <figure class="portrait"><img src="https://drive.google.com/thumbnail?id=1qgRq_V_0dDNBxTCtTEHeLq9IGxA1Jxsk&sz=w1600" alt="Him" referrerpolicy="no-referrer" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='https://drive.google.com/uc?export=view&id=1qgRq_V_0dDNBxTCtTEHeLq9IGxA1Jxsk'}else{this.parentNode.classList.add('empty-photo')}"></figure>
+      <div class="bio"><span class="scene-tag">HER WORLD</span>
+      <h1 class="him-title">INBAKUMAR</h1>
+      <!-- <p class="him-desc">A heart full of kindness, a soul full of love, a mind full of stories, and a presence that feels like home🤍♾️</p> -->
+      <p class="him-desc more">A rare soul with the soft and kindest heart, even makes the smallest moments feel special❤️🥰 The reason behind my happiest smiles, filling every days with endless love and beautiful memories❤️✨ Everything feels calm, safe, and peaceful in a world full of noise, feels like my comfy Zone 🫂 The endless talks, silly stories, and never-ending conversations make every moment more beautiful and memorable💕 </p></div>
+    </div>
+    <div class="him-right">
+      <div class="thought-card glass"><b>💎 Kind</b><small>A rare soul with a beautiful kind heart</small></div>
+      <div class="thought-card glass"><b>❤️ Love</b><small>A beautiful reason behind my happiest smiles</small></div>
+      <div class="thought-card glass"><b>♾️ Peace</b><small>Around him everything feels so Safe and Soft in a noisy world</small></div>
+      <div class="thought-card glass"><b>💭 Talkative</b><small>The endless talks with lots of Love and who makes every conversation memorable</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- HER -->
+<section class="scene" id="her">
+  <div class="petal petal1"></div><div class="petal petal2"></div><div class="petal petal3"></div><div class="petal petal4"></div>
+  <div class="her-layout">
+    <div class="her-left">
+      <div class="memory-card glass"><b>🎀 Sweet</b><small>A beautiful mix of innocence, warmth, and little gestures</small></div>
+      <div class="memory-card glass"><b>❤️ Love</b><small>A heart that loves deeply, cares endlessly, and makes even the simplest moments feel magical</small></div>
+      <div class="memory-card glass"><b>🌸 Smile</b><small>A beautiful reason behind countless happy moments, with a smile that can brighten any ordinary day</small></div>
+      <div class="memory-card glass"><b>🫂 Care</b><small>Cares in the little things, notices the smallest details, and makes feel special</small></div>
+    </div>
+    <div class="her-right glass">
+      <figure class="portrait"><img src="https://drive.google.com/thumbnail?id=13_TzziCjD-Aw1VEEhVQUsq8E8nAyBkbr&sz=w1600" alt="Her" referrerpolicy="no-referrer" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='https://drive.google.com/uc?export=view&id=13_TzziCjD-Aw1VEEhVQUsq8E8nAyBkbr'}else{this.parentNode.classList.add('empty-photo')}"></figure>
+      <div class="bio"><span class="scene-tag pink">HIS WORLD</span>
+      <h1 class="her-title">SHIVANANDHINI</h1>
+      <p class="her-desc">A soft universe filled with warmth, beautiful emotions and magical memories🤍✨</p>
+      <p class="her-desc more">A little bundle of sweetness, with a heart full of love and a soul that makes everything feel beautiful🎀❤️ A  care speaks through the smallest gestures, and whose presence makes even ordinary moments feel magical✨🥰 Smiles like a little sunshine that can brighten the dullest days🥰🫂 A heart full of warmth, endless love, the cutest smile🌸🫂💕</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="scene" id="journey">
+  <div class="projects-heading">
+    <span class="scene-tag">OUR STORY</span>
+    <h1 class="projects-title">Journey</h1>
+    <p class="projects-subtitle">From a Lovely Hii to a universe of our own.</p>
+  </div>
+  <div class="journey-container">
+    <div class="journey-line"></div>
+    <div class="journey-card left glass"><span class="journey-dot"></span><h2>The Beginning</h2><p>It started with a simple talks with no plans, no thoughts, just You and Me💕 and a feeling that something quietly different had begun🫂🥰❤️</p></div>
+    <div class="journey-card right glass"><span class="journey-dot"></span><h2>Beautiful Moments</h2><p>Long talks with sweet laughter and ordinary days that turned unforgettable🫂🤍 Little by little, started to live our life❤️</p></div>
+    <div class="journey-card left glass"><span class="journey-dot"></span><h2>Dreams Together</h2><p>Ideas, hopes and future stories began to connect like places to see, things to build and a tomorrow worth waiting for🥰❤️</p></div>
+    <div class="journey-card right glass"><span class="journey-dot"></span><h2>Still Growing</h2><p>The story is not finished, and it never will be🫂✨ It continues every single day, one beautiful page at a time😘</p></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="scene" id="projects">
+  <div class="project-glow glow1"></div><div class="project-glow glow2"></div>
+  <div class="projects-heading">
+    <span class="scene-tag">TOKENS OF LOVE</span>
+    <h1 class="projects-title">Love Sites</h1>
+    <p class="projects-subtitle">Worlds built from imagination, creativity and endless Love.</p>
+  </div>
+
+  <div class="projects-grid">
+    <!-- <div class="project-card glass"><div class="project-number">01</div><h2>Memory Universe</h2><p>A cinematic digital home for moments and dreams.</p></div>
+    <div class="project-card glass"><div class="project-number">02</div><h2>Creative Portfolio</h2><p>Interactive experiences and visual storytelling ideas.</p></div>
+    <div class="project-card glass"><div class="project-number">03</div><h2>Future Concepts</h2><p>Imagined worlds and futuristic digital experiences.</p></div>
+    <div class="project-card glass"><div class="project-number">04</div><h2>Dream Archive</h2><p>A universe of saved memories, reels and emotions.</p></div> -->
+    <div id="projectList" style="display:contents"></div>
+  </div>
+</section>
+
+<!-- KAVITHAI -->
+<section class="scene" id="kavithai">
+  <div class="projects-heading">
+    <span class="scene-tag pink">POETRY</span>
+    <h1 class="projects-title">Kavithaigal</h1>
+    <p class="projects-subtitle">Words that stayed when everything else was quiet</p>
+  </div>
+  <div class="poem-grid" id="poemList"></div>
+</section>
+
+<!-- PHOTOS -->
+<section class="scene" id="photos">
+  <div class="projects-heading">
+    <span class="scene-tag">GALLERY</span>
+    <h1 class="projects-title">Photos</h1>
+    <p class="projects-subtitle">Moments, kept in one place</p>
+  </div>
+  <div class="gallery" id="photoList"></div>
+</section>
+
+<!-- MEMORIES -->
+<section class="scene" id="memories">
+  <div class="memory-heading">
+    <span class="scene-tag">MEMORY ARCHIVE</span>
+    <h1 class="memory-title">Memories</h1>
+    <p class="memory-subtitle">Tiny fragments of moments, preserved forever in time</p>
+  </div>
+  <div class="memory-world" id="memoryWorld">
+    <!-- <div class="memory-polaroid glass m1"><img src="https://picsum.photos/400/500?1" alt=""><span>A beautiful day ✨</span></div>
+    <div class="memory-polaroid glass m2"><img src="https://picsum.photos/400/550?2" alt=""><span>Endless laughter 🌙</span></div>
+    <div class="memory-reel glass m3"><video autoplay muted loop playsinline><source src="" type="video/mp4"></video><span>Cinematic moments 🎬</span></div>
+    <div class="memory-polaroid glass m4"><img src="https://picsum.photos/400/530?3" alt=""><span>Warm memories ☁️</span></div>
+    <div class="memory-polaroid glass m5"><img src="https://picsum.photos/400/520?4" alt=""><span>Dreamy evenings 🌸</span></div> -->
+  </div>
+  <div class="memory-uploads" id="memoryList" hidden></div>
+</section>
+
+<!-- DREAMS -->
+<section class="scene" id="dreams">
+  <div class="dream-glow g1"></div><div class="dream-glow g2"></div><div class="dream-glow g3"></div>
+  <div class="dream-star s1"></div><div class="dream-star s2"></div><div class="dream-star s3"></div><div class="dream-star s4"></div>
+  <div class="dreams-content">
+    <span class="scene-tag purple">FUTURE</span>
+    <h1 class="dreams-title">Dreams</h1>
+    <p class="dreams-subtitle">Beyond memories and moments, there is still an infinite waiting to be created</p>
+    <div class="dream-grid">
+      <div class="dream-card glass"><b>🌍 Future Adventures</b><small>Peaceful hill stations, Sunrise road trips, new cities and places we have imagined</small></div>
+      <div class="dream-card glass"><b>📷 Endless Moments</b><small>Endless moments to be shared and captured</small></div>
+      <div class="dream-card glass"><b>💫 Beautiful Tomorrows</b><small>Calm mornings, shared laughter and a life that feels like home</small></div>
+      <div class="dream-card glass"><b>🫂 Promises</b><small>Being there for each other in every moment, sharing the happiest days and hardest times, and reminding each other we'll always have each other❤️♾️</small></div>
+    </div>
+    <p class="dreams-closing">And this is only the beginning.</p>
+  </div>
+</section>
+
+<aside class="upload-drawer" id="uploadDrawer" aria-label="Uploads" hidden>
+  <div class="ud-head"><h2>Uploads</h2><button type="button" class="ud-close" id="udClose" aria-label="Close uploads">×</button></div>
+  <div class="ud-tabs" role="tablist">
+    <button type="button" role="tab" class="on" data-tab="photoForm">Photos</button>
+    <button type="button" role="tab" data-tab="projectForm">Projects</button>
+    <button type="button" role="tab" data-tab="memoryForm">Memories</button>
+    <button type="button" role="tab" data-tab="poemForm">Kavithai</button>
+  </div>
+  <div class="ud-body">
+  <form class="upload-panel" id="photoForm">
+    <label class="dropzone" data-hint="Drop photos here, or click to choose">
+      <input type="file" accept="image/*" multiple>
+      <span class="dz-text">Drop photos here, or click to choose</span>
+    </label>
+  </form>
+
+  <form class="upload-panel" id="projectForm" autocomplete="off">
+    <h2>Add a project link</h2>
+    <div class="field-row">
+      <input class="field" name="title" placeholder="Project title" required maxlength="80" aria-label="Project title">
+      <input class="field" name="desc" placeholder="Short description" maxlength="160" aria-label="Project description">
+    </div>
+    <input class="field" name="url" type="text" inputmode="url" placeholder="Paste project link (https://…)" required aria-label="Project link">
+    <button class="btn" type="submit">Add project</button>
+  </form>
+
+  <form class="upload-panel" id="memoryForm" autocomplete="off">
+    <h2>Add memories</h2>
+    <input class="field" name="caption" placeholder="Caption, e.g. A beautiful day ✨ (optional)" maxlength="60" aria-label="Memory caption">
+    <label class="dropzone" data-hint="Drop memory photos here, or click to choose">
+      <input type="file" accept="image/*" multiple>
+      <span class="dz-text">Drop memory photos here, or click to choose</span>
+    </label>
+    <button class="btn" type="submit">Add to memories</button>
+  </form>
+  <form class="upload-panel" id="poemForm" autocomplete="off">
+    <h2>Write a new kavithai</h2>
+    <input class="field" name="title" placeholder="Title" required maxlength="80" aria-label="Poem title">
+    <textarea class="field poem-input" name="body" rows="6" placeholder="Write your kavithai here — line breaks are kept" required aria-label="Poem text"></textarea>
+    <button class="btn" type="submit">Publish kavithai</button>
+  </form>
+  </div>
+</aside>
+
+<div class="lightbox" id="lightbox" hidden><img alt=""><button type="button" aria-label="Close">×</button></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="script.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
