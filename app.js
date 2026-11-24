@@ -2,7 +2,7 @@
    Everyone can view; only the logged-in owners can upload or remove. */
    const SUPABASE_URL = "https://xqhuioqodyvwchqbxnfd.supabase.co";
    // false = everyone can view, login only for upload/remove.  true = whole site locked behind login.
-   const REQUIRE_LOGIN_TO_VIEW = false;
+   const REQUIRE_LOGIN_TO_VIEW = true;
    const SUPABASE_KEY = "sb_publishable__SE7NFaXFVpJ0bm2Iov4eA_2iWJvcKh";
    
    (() => {
@@ -93,7 +93,7 @@
        by("project").reverse().forEach((p, n) => {
          const c = el("div", "project-card user glass");
          let host = ""; try { host = new URL(p.url).hostname.replace(/^www\./, ""); } catch {}
-         c.append(el("div", "project-number", String(n + 1).padStart(2, "0")), el("h2", "", p.title), el("p", "", p.caption || host));
+         c.append(el("div", "project-number", String(n + 5).padStart(2, "0")), el("h2", "", p.title), el("p", "", p.caption || host));
          const act = el("div", "pc-actions");
          const a = el("a", "", "Open link"); a.href = p.url; a.target = "_blank"; a.rel = "noopener noreferrer";
          act.append(a); const r = removeBtn(p, `Remove ${p.title}`); if (r) act.append(r);
@@ -209,12 +209,50 @@
    
      /* ---------- password gate ---------- */
      const gate = el("div"); gate.id = "gate";
-     gate.innerHTML = '<form class="gate-card glass"><span class="badge">🔒</span><h1>Our World</h1><p>Only the two of us can come in. Please log in.</p><input class="field" name="email" type="email" placeholder="Email" required autocomplete="username" aria-label="Email"><input class="field" name="pw" type="password" placeholder="Password" required autocomplete="current-password" aria-label="Password"><div class="gate-err" role="alert"></div><button class="btn" type="submit">Log in</button></form>';
+     gate.innerHTML = '<div class="gate-track"><section class="gate-pane gate-splash"><h1>Our World</h1><p>A universe of memories, dreams and beautiful moments.</p><div class="swipe-hint"><span class="swipe-arrow">‹</span> swipe left to enter</div><button type="button" class="btn swipe-btn">Enter</button></section><section class="gate-pane"><form class="gate-card glass"><button type="button" class="gate-back" aria-label="Back">‹ back</button><span class="badge">🔒</span><h1>Welcome back</h1><p>Only the two of us can come in.</p><input class="field" name="email" type="email" placeholder="Email" required autocomplete="username" aria-label="Email"><input class="field" name="pw" type="password" placeholder="Password" required autocomplete="current-password" aria-label="Password"><div class="gate-err" role="alert"></div><button class="btn" type="submit">Log in</button></form></section></div>';
      document.body.append(gate);
+     gate.append(el("small", "gate-ver", "v3"));
      gate.hidden = !REQUIRE_LOGIN_TO_VIEW;
      document.body.classList.toggle("locked", REQUIRE_LOGIN_TO_VIEW);
      const gateForm = gate.querySelector("form"), gateErr = gate.querySelector(".gate-err");
-     const showGate = () => { if (!REQUIRE_LOGIN_TO_VIEW) return; gate.hidden = false; document.body.classList.add("locked"); };
+   
+     /* swipe left (or press Enter / arrow key) to reach the login page */
+     const track = gate.querySelector(".gate-track");
+     const panes = [...gate.querySelectorAll(".gate-pane")];
+     let step = 0, sx = null, dx = 0;
+     const goStep = (n) => {
+       step = n; dx = 0;
+       panes.forEach((p, i) => { p.inert = i !== step; });
+       track.style.transition = ""; track.style.transform = `translateX(${-step * 50}%)`;
+       if (n === 1) setTimeout(() => gateForm.email.focus({ preventScroll: true }), 700);
+     };
+     gate.addEventListener("pointerdown", (e) => { if (!e.target.closest("input,button")) { sx = e.clientX; dx = 0; try { gate.setPointerCapture(e.pointerId); } catch {} } });
+     gate.addEventListener("pointermove", (e) => {
+       if (sx === null) return;
+       if (e.pointerType === "mouse" && e.buttons === 0) return endDrag();
+       dx = e.clientX - sx;
+       track.style.transition = "none";
+       track.style.transform = `translateX(calc(${-step * 50}% + ${dx}px))`;
+     });
+     const endDrag = () => {
+       if (sx === null) return;
+       const d = dx; sx = null;
+       goStep(d < -60 ? 1 : d > 60 ? 0 : step);
+     };
+     gate.addEventListener("pointerup", endDrag);
+     gate.addEventListener("pointercancel", endDrag);
+     gate.addEventListener("lostpointercapture", endDrag);
+     window.addEventListener("blur", endDrag);
+     gate.querySelector(".swipe-btn").addEventListener("click", () => goStep(1));
+     gate.querySelector(".gate-back").addEventListener("click", () => goStep(0));
+     gate.addEventListener("scroll", () => { gate.scrollLeft = 0; gate.scrollTop = 0; });
+     goStep(0);
+     document.addEventListener("keydown", (e) => {
+       if (gate.hidden || e.target.closest("input")) return;
+       if (e.key === "ArrowLeft" || e.key === "Enter") goStep(1);
+       if (e.key === "ArrowRight") goStep(0);
+     });
+     const showGate = () => { if (!REQUIRE_LOGIN_TO_VIEW) return; gate.hidden = false; goStep(0); document.body.classList.add("locked"); };
      const hideGate = () => { gate.hidden = true; document.body.classList.remove("locked"); };
      gateForm.addEventListener("submit", async (e) => {
        e.preventDefault(); gateErr.textContent = "";
