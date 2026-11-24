@@ -204,3 +204,13 @@ body{font-family:"Manrope","Segoe UI",system-ui,sans-serif;font-weight:300}
 .memory-card .badge{margin-bottom:6px}
 @media (min-width:769px){.her-left .memory-card:nth-child(2){margin-left:0}}
 @media (max-width:768px){.her-left{grid-template-columns:1fr}.memory-card{min-height:125px}}
+
+/* ---------- friendly empty states + login popup ---------- */
+.empty-card{--accent:255,170,215;column-span:all;grid-column:1/-1;width:min(520px,100%);margin:0 auto;padding:36px 28px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.empty-card h2{margin:0;font-size:clamp(26px,3vw,34px)}
+.empty-card p{margin:0;max-width:34ch;font-size:15px;line-height:1.7;color:var(--muted);text-align:center}
+#loginForm{align-items:stretch;text-align:center}
+#loginForm h2{text-align:center}
+#loginForm .btn{align-self:center}
+.login-badge{--accent:255,170,215;margin:6px auto 0}
+.login-note{margin:0;font-size:14px;line-height:1.7;color:var(--muted);text-align:center}
