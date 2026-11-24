@@ -1,6 +1,8 @@
 /* OUR WORLD — shared content (Kavithai, Projects, Photos, Memories) stored online with Supabase.
    Everyone can view; only the logged-in owners can upload or remove. */
    const SUPABASE_URL = "https://xqhuioqodyvwchqbxnfd.supabase.co";
+   // false = everyone can view, login only for upload/remove.  true = whole site locked behind login.
+   const REQUIRE_LOGIN_TO_VIEW = false;
    const SUPABASE_KEY = "sb_publishable__SE7NFaXFVpJ0bm2Iov4eA_2iWJvcKh";
    
    (() => {
@@ -168,7 +170,7 @@
      const lf = el("form", "upload-panel"); lf.id = "loginForm";
      lf.innerHTML = '<span class="badge login-badge">🔒</span><h2>Owners only</h2><p class="login-note">Everyone can view the whole site. Logging in is only needed to upload or remove content.</p><input class="field" name="email" type="email" placeholder="Email" required autocomplete="username"><input class="field" name="pw" type="password" placeholder="Password" required autocomplete="current-password"><button class="btn" type="submit">Log in</button><p class="login-note">Just looking around? Close this and enjoy the site ✨</p>';
      drawer.querySelector(".ud-body").prepend(lf);
-     const out = el("button", "remove", "Log out"); out.type = "button"; out.style.marginRight = "14px";
+     const out = el("button", "ud-logout", "Log out"); out.type = "button";
      drawer.querySelector(".ud-head").insertBefore(out, $("#udClose"));
      lf.addEventListener("submit", async (e) => {
        e.preventDefault();
@@ -176,7 +178,10 @@
        const { error } = await sb.auth.signInWithPassword({ email: lf.email.value.trim(), password: lf.pw.value });
        if (error) toast("Wrong email or password"); else { lf.reset(); toast("Welcome back"); }
      });
-     out.addEventListener("click", () => sb.auth.signOut());
+     out.addEventListener("click", async () => {
+       try { await sb.auth.signOut({ scope: "local" }); } catch {}
+       onSession(null); toggle(false); toast("Logged out");
+     });
    
      const show = (id) => {
        current = id;
@@ -202,18 +207,44 @@
      box.addEventListener("click", () => (box.hidden = true));
      document.addEventListener("keydown", (e) => { if (e.key === "Escape") box.hidden = true; });
    
+     /* ---------- password gate ---------- */
+     const gate = el("div"); gate.id = "gate";
+     gate.innerHTML = '<form class="gate-card glass"><span class="badge">🔒</span><h1>Our World</h1><p>Only the two of us can come in. Please log in.</p><input class="field" name="email" type="email" placeholder="Email" required autocomplete="username" aria-label="Email"><input class="field" name="pw" type="password" placeholder="Password" required autocomplete="current-password" aria-label="Password"><div class="gate-err" role="alert"></div><button class="btn" type="submit">Log in</button></form>';
+     document.body.append(gate);
+     gate.hidden = !REQUIRE_LOGIN_TO_VIEW;
+     document.body.classList.toggle("locked", REQUIRE_LOGIN_TO_VIEW);
+     const gateForm = gate.querySelector("form"), gateErr = gate.querySelector(".gate-err");
+     const showGate = () => { if (!REQUIRE_LOGIN_TO_VIEW) return; gate.hidden = false; document.body.classList.add("locked"); };
+     const hideGate = () => { gate.hidden = true; document.body.classList.remove("locked"); };
+     gateForm.addEventListener("submit", async (e) => {
+       e.preventDefault(); gateErr.textContent = "";
+       if (!sb) { gateErr.textContent = "Connecting… please try again in a moment."; return; }
+       const { error } = await sb.auth.signInWithPassword({ email: gateForm.email.value.trim(), password: gateForm.pw.value });
+       if (error) gateErr.textContent = "Wrong email or password."; else gateForm.reset();
+     });
+   
+     /* ---------- session handling: only the two owners can sign in ---------- */
+     const isOwner = (s) => !!s;
+     let who = null;
+     const onSession = (session) => {
+       const key = session ? session.user.email : "";
+       if (key === who) return;
+       who = key; owner = isOwner(session);
+       if (!session && REQUIRE_LOGIN_TO_VIEW) { showGate(); return; }
+       hideGate(); applyOwner();
+     };
+   
      /* ---------- start ---------- */
-     if (SUPABASE_URL.startsWith("PASTE")) { toast("Add your Supabase details at the top of app.js"); }
+     if (SUPABASE_URL.startsWith("PASTE")) { gateErr.textContent = "Add your Supabase details at the top of app.js"; toast("Add your Supabase details at the top of app.js"); }
      else {
        const s = document.createElement("script");
        s.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js";
        s.onload = async () => {
          sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-         owner = !!(await sb.auth.getSession()).data.session;
-         sb.auth.onAuthStateChange((_e, session) => { const o = !!session; if (o !== owner) { owner = o; applyOwner(); } });
-         applyOwner();
+         sb.auth.onAuthStateChange((_e, session) => onSession(session));
+         onSession((await sb.auth.getSession()).data.session);
        };
-       s.onerror = () => toast("Could not load the online service");
+       s.onerror = () => { gateErr.textContent = "Could not connect. Please check your internet and refresh."; };
        document.head.append(s);
      }
    
