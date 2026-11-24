@@ -211,7 +211,7 @@
      const gate = el("div"); gate.id = "gate";
      gate.innerHTML = '<div class="gate-track"><section class="gate-pane gate-splash"><h1>Our World</h1><p>A universe of memories, dreams and beautiful moments.</p><div class="swipe-hint"><span class="swipe-arrow">‹</span> swipe left to enter</div><button type="button" class="btn swipe-btn">Enter</button></section><section class="gate-pane"><form class="gate-card glass"><button type="button" class="gate-back" aria-label="Back">‹ back</button><span class="badge">🔒</span><h1>Welcome back</h1><p>Only the two of us can come in.</p><input class="field" name="email" type="email" placeholder="Email" required autocomplete="username" aria-label="Email"><input class="field" name="pw" type="password" placeholder="Password" required autocomplete="current-password" aria-label="Password"><div class="gate-err" role="alert"></div><button class="btn" type="submit">Log in</button></form></section></div>';
      document.body.append(gate);
-     gate.append(el("small", "gate-ver", "v3"));
+    //  gate.append(el("small", "gate-ver", "v4"));
      gate.hidden = !REQUIRE_LOGIN_TO_VIEW;
      document.body.classList.toggle("locked", REQUIRE_LOGIN_TO_VIEW);
      const gateForm = gate.querySelector("form"), gateErr = gate.querySelector(".gate-err");
@@ -239,7 +239,11 @@
        const d = dx; sx = null;
        goStep(d < -60 ? 1 : d > 60 ? 0 : step);
      };
-     gate.addEventListener("pointerup", endDrag);
+     gate.addEventListener("pointerup", (e) => {
+       const d = dx;
+       endDrag();
+       if (Math.abs(d) < 8 && step === 0 && e.target.closest(".gate-splash")) goStep(1); // a simple tap also enters
+     });
      gate.addEventListener("pointercancel", endDrag);
      gate.addEventListener("lostpointercapture", endDrag);
      window.addEventListener("blur", endDrag);
