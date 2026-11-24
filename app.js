@@ -8,7 +8,7 @@
      const $ = (s) => document.querySelector(s);
      const toastEl = $("#toast");
      let tt;
-     const toast = (m) => { toastEl.textContent = m; toastEl.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove("on"), 2800); };
+     const toast = (m) => { toastEl.textContent = m; toastEl.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove("on"), 6000); };
      const el = (t, c, x) => { const n = document.createElement(t); if (c) n.className = c; if (x != null) n.textContent = x; return n; };
      const when = (d) => new Date(d).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
      const ytId = (u) => { try { const x = new URL(u); if (x.hostname.includes("youtu.be")) return x.pathname.slice(1); } catch {} return ""; };
@@ -23,7 +23,7 @@
      /* ---------- data ---------- */
      const fetchAll = async () => {
        const { data, error } = await sb.from("items").select("*").order("created_at", { ascending: false });
-       if (error) { toast("Could not load content"); return []; }
+       if (error) { toast("Could not load: " + error.message); return []; }
        return data;
      };
      const addRow = async (row) => { const { error } = await sb.from("items").insert(row); if (error) throw error; };
@@ -134,7 +134,7 @@
          toast("Uploading…");
          for (const f of imgs) { const { path, url } = await upFile(f); await addRow({ kind, path, url, caption: caption || null }); }
          await render(); toast(`${imgs.length} added`);
-       } catch { toast("Upload failed. Check your connection and login."); }
+       } catch (err) { console.error(err); toast("Upload failed: " + (err.message || err)); }
      };
    
      const phf = $("#photoForm"), phz = dropzone(phf, async (files) => { await uploadImages(files, "photo", ""); phz.reset(); });
@@ -147,12 +147,12 @@
        let raw = pf.url.value.trim(); if (!/^https?:\/\//i.test(raw)) raw = "https://" + raw;
        let u; try { u = new URL(raw); if (!u.hostname.includes(".")) throw 0; } catch { return toast("That doesn't look like a valid link"); }
        try { await addRow({ kind: "project", title: pf.title.value.trim(), caption: pf.desc.value.trim() || null, url: u.href }); pf.reset(); await render(); toast("Project added"); }
-       catch { toast("Could not save. Are you logged in?"); }
+       catch (err) { console.error(err); toast("Could not save: " + (err.message || err)); }
      });
      $("#poemForm").addEventListener("submit", async (e) => {
        e.preventDefault(); const f = e.target;
        try { await addRow({ kind: "poem", title: f.title.value.trim(), body: f.body.value.trim() }); f.reset(); await render(); toast("Kavithai published"); }
-       catch { toast("Could not save. Are you logged in?"); }
+       catch (err) { console.error(err); toast("Could not save: " + (err.message || err)); }
      });
    
      /* ---------- owner login + popup ---------- */
