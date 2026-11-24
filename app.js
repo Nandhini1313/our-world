@@ -93,7 +93,7 @@
        by("project").reverse().forEach((p, n) => {
          const c = el("div", "project-card user glass");
          let host = ""; try { host = new URL(p.url).hostname.replace(/^www\./, ""); } catch {}
-         c.append(el("div", "project-number", String(n + 5).padStart(2, "0")), el("h2", "", p.title), el("p", "", p.caption || host));
+         c.append(el("div", "project-number", String(n + 1).padStart(2, "0")), el("h2", "", p.title), el("p", "", p.caption || host));
          const act = el("div", "pc-actions");
          const a = el("a", "", "Open link"); a.href = p.url; a.target = "_blank"; a.rel = "noopener noreferrer";
          act.append(a); const r = removeBtn(p, `Remove ${p.title}`); if (r) act.append(r);
