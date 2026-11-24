@@ -20,10 +20,12 @@
      const tabs = [...drawer.querySelectorAll("[data-tab]")];
      let current = "photoForm";
    
+     let lastError = "";
+   
      /* ---------- data ---------- */
      const fetchAll = async () => {
        const { data, error } = await sb.from("items").select("*").order("created_at", { ascending: false });
-       if (error) { toast("Could not load: " + error.message); return []; }
+       if (error) { lastError = error.message; toast("Could not load: " + error.message); return null; }
        return data;
      };
      const addRow = async (row) => { const { error } = await sb.from("items").insert(row); if (error) throw error; };
@@ -64,13 +66,20 @@
        return b;
      };
    
+     const emptyCard = (icon, t, x) => {
+       const c = el("div", "empty-card glass");
+       c.append(el("span", "badge", icon), el("h2", "", t), el("p", "", x));
+       return c;
+     };
+   
      /* ---------- render ---------- */
      async function render() {
        const items = await fetchAll();
+       if (!items) { $("#photoList").replaceChildren(emptyCard("⚠️", "Content could not be loaded", lastError || "Please check your connection and refresh.")); return; }
        const by = (k) => items.filter((i) => i.kind === k);
    
        const pl = $("#poemList"); pl.replaceChildren();
-       if (!by("poem").length) pl.append(el("p", "empty", "No kavithai yet."));
+       if (!by("poem").length) pl.append(emptyCard("✍️", "Kavithai are on their way", owner ? "Click Upload to add the first one." : "New poems will appear here soon."));
        by("poem").forEach((p) => {
          const c = el("article", "poem-card glass");
          c.append(el("h2", "", p.title), el("p", "poem-body", p.body));
@@ -103,7 +112,7 @@
        });
    
        const gl = $("#photoList"); gl.replaceChildren();
-       if (!by("photo").length) gl.append(el("p", "empty", "No photos yet."));
+       if (!by("photo").length) gl.append(emptyCard("📷", "Photos are on their way", owner ? "Click Upload to add the first one." : "New photos will appear here soon."));
        by("photo").forEach((p) => {
          const f = el("figure", "photo glass"), i = el("img");
          i.src = p.url; i.alt = p.caption || "Photo"; i.loading = "lazy";
@@ -157,7 +166,7 @@
    
      /* ---------- owner login + popup ---------- */
      const lf = el("form", "upload-panel"); lf.id = "loginForm";
-     lf.innerHTML = '<h2>Owner login</h2><input class="field" name="email" type="email" placeholder="Email" required autocomplete="username"><input class="field" name="pw" type="password" placeholder="Password" required autocomplete="current-password"><button class="btn" type="submit">Log in</button>';
+     lf.innerHTML = '<span class="badge login-badge">🔒</span><h2>Owners only</h2><p class="login-note">Everyone can view the whole site. Logging in is only needed to upload or remove content.</p><input class="field" name="email" type="email" placeholder="Email" required autocomplete="username"><input class="field" name="pw" type="password" placeholder="Password" required autocomplete="current-password"><button class="btn" type="submit">Log in</button><p class="login-note">Just looking around? Close this and enjoy the site ✨</p>';
      drawer.querySelector(".ud-body").prepend(lf);
      const out = el("button", "remove", "Log out"); out.type = "button"; out.style.marginRight = "14px";
      drawer.querySelector(".ud-head").insertBefore(out, $("#udClose"));
