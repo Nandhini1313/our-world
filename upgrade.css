@@ -254,3 +254,15 @@ body.locked{overflow:hidden}
 #gate:not([hidden]){display:block;padding:0}
 .gate-track{position:absolute;left:0;top:0}
 .gate-ver{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:2;font-size:11px;opacity:.35;pointer-events:none}
+
+/* v4: phones */
+.gate-splash{touch-action:none}
+.gate-pane{overflow-y:auto}
+@media (max-width:768px){
+  .swipe-btn{display:inline-block}
+  .gate-splash p{margin-bottom:30px}
+  .swipe-hint{font-size:12px;letter-spacing:.22em}
+  #gate::after{width:min(170px,42vw);top:6%;right:6%}
+  .gate-card{padding:26px 20px}
+}
+@supports (height:100dvh){#gate{height:100dvh;bottom:auto}}
